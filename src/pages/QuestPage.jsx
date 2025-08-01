@@ -5,7 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 
 function QuestPage() {
   const { id } = useParams();
-  const { hero, setHero } = useContext(AuthContext);
+  const { hero, setHero, token } = useContext(AuthContext);
   const [quest, setQuest] = useState(null);
   const [objectives, setObjectives] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -69,6 +69,18 @@ function QuestPage() {
     }
   };
 
+  const fetchHero = async () => {
+    try {
+      const res = await api.get("/heroes/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setHero(res.data);
+      localStorage.setItem("hero", JSON.stringify(res.data));
+    } catch (err) {
+      console.error("Failed to refresh hero XP:", err);
+    }
+  };
+
   const updateObjective = async (objectiveId, updates) => {
     try {
       const existing = objectives.find((o) => o._id === objectiveId);
@@ -82,12 +94,9 @@ function QuestPage() {
       );
 
       if (!wasDone && updates.status === "Done") {
-        const newXP = hero.xp + (updated.xpReward || 200);
-        const newLevel = Math.floor(newXP / 5000) + 1;
-        const updatedHero = { ...hero, xp: newXP, level: newLevel };
-        setHero(updatedHero);
-        localStorage.setItem("hero", JSON.stringify(updatedHero));
+        await fetchHero();
       }
+      alert("Objective updated successfully!");
     } catch {
       alert("Failed to update objective");
     }

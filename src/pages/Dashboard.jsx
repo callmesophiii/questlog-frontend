@@ -6,15 +6,15 @@ import { Link, useNavigate } from "react-router-dom";
 import XPBar from "../components/XPBar";
 
 function Dashboard() {
-  const { hero, logout } = useContext(AuthContext);
+  const { hero, logout, setHero, token } = useContext(AuthContext);
   const [allQuests, setAllQuests] = useState([]);
   const navigate = useNavigate();
 
+  // === Fetch quests on mount ===
   useEffect(() => {
     const fetchQuests = async () => {
       try {
         const res = await api.get("/quests");
-        console.log("Fetched quests:", res.data);
         setAllQuests(res.data);
       } catch (err) {
         console.error("Failed to load quests", err);
@@ -23,6 +23,19 @@ function Dashboard() {
 
     fetchQuests();
   }, []);
+
+  // === Fetch latest hero XP and level ===
+  const fetchHero = async () => {
+    try {
+      const res = await api.get("/heroes/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setHero(res.data);
+      localStorage.setItem("hero", JSON.stringify(res.data));
+    } catch (err) {
+      console.error("Failed to refresh hero XP:", err);
+    }
+  };
 
   const handleQuestCreated = (newQuest) => {
     setAllQuests((prev) => [newQuest, ...prev]);
@@ -89,7 +102,7 @@ function Dashboard() {
         />
       )}
 
-      <QuestForm onQuestCreated={handleQuestCreated} />
+      <QuestForm onQuestCreated={handleQuestCreated} fetchHero={fetchHero} />
 
       {/* === Owned Quests === */}
       <h2 style={{ marginTop: "2rem" }}>🛡️ Your Quests</h2>
