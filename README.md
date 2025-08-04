@@ -133,7 +133,7 @@
 ## 🙏 Acknowledgements
 - [Per Scholas](#-Per-Scholas) – For providing the curriculum, support, and inspiration to build a full MERN project from scratch.
 
-- [Abe & Colton](#-Abe-&-Colton) – Thank you for guidance, code reviews, and helping debug the tough stuff.
+- [Abe, Colton, & Yusuf](#-Abe-&-Colton-&-Yusuf) – Thank you for guidance, code reviews, and helping debug the tough stuff.
 
 - [OpenAI / ChatGPT](#-OpenAI-ChatGPT) – For assistance with code explanations, architecture decisions, and syntax support throughout development.
 
