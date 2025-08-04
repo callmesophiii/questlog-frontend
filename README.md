@@ -12,6 +12,8 @@
 - [🧪 API Endpoints](#-api-endpoints)
 - [🛠️ Development Notes](#️-development-notes)
 
+---
+
 - ## 📜 Features
 
 - 🔐 **User Authentication** with JWT (Register, Login, Logout)
