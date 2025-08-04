@@ -10,7 +10,7 @@ function Dashboard() {
   const [allQuests, setAllQuests] = useState([]);
   const navigate = useNavigate();
 
-  // === Fetch quests on mount ===
+  // Fetch quests on mount
   useEffect(() => {
     const fetchQuests = async () => {
       try {
@@ -24,7 +24,7 @@ function Dashboard() {
     fetchQuests();
   }, []);
 
-  // === Fetch latest hero XP and level ===
+  // Fetch latest hero XP and level 
   const fetchHero = async () => {
     try {
       const res = await api.get("/heroes/me", {
